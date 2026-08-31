@@ -32,7 +32,7 @@ jobs:
       - run: ruff check src tests examples benchmarks
       - run: mypy src/runtime_sentinel
       - run: pytest --cov-report=xml
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: matrix.experimental == false
         with:
           name: python-coverage
