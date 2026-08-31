@@ -32,6 +32,8 @@ jobs:
       - run: ruff check src tests examples benchmarks
       - run: mypy src/runtime_sentinel
       - run: pytest --cov-report=xml
+      - run: python -m build
+      - run: python -m twine check dist/*
       - uses: actions/upload-artifact@v7
         if: matrix.experimental == false
         with:
