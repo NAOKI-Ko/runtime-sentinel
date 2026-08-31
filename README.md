@@ -49,11 +49,21 @@ trade-offs.
 
 ## Installation
 
+The package is not currently published on PyPI. Install the signed-off release source directly
+from GitHub:
+
 ```bash
-python -m pip install runtime-sentinel
+python -m pip install "runtime-sentinel @ git+https://github.com/NAOKI-Ko/runtime-sentinel.git@v0.1.0"
 ```
 
-For a source checkout:
+Alternatively, download the wheel attached to the
+[v0.1.0 GitHub Release](https://github.com/NAOKI-Ko/runtime-sentinel/releases/tag/v0.1.0):
+
+```bash
+python -m pip install runtime_sentinel-0.1.0-py3-none-any.whl
+```
+
+For a development checkout:
 
 ```bash
 python -m pip install '.[dev]'
@@ -142,7 +152,8 @@ python benchmarks/benchmark_graph.py --nodes 10000 --rounds 20
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Security reports follow
-the private process in [SECURITY.md](SECURITY.md).
+the private process in [SECURITY.md](SECURITY.md). Maintainers should follow the reproducible
+[release process](docs/releasing.md).
 
 ## License
 
