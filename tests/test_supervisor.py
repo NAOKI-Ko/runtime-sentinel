@@ -49,11 +49,13 @@ class FlakyWorker(CooperativeWorker):
     def __init__(self) -> None:
         super().__init__()
         self.invocations = 0
+        self.retry_started = asyncio.Event()
 
     async def run(self, context: WorkerContext) -> None:
         self.invocations += 1
         if self.invocations == 1:
             raise OSError("injected transient failure")
+        self.retry_started.set()
         await super().run(context)
 
 
@@ -99,7 +101,8 @@ async def test_failure_is_retried_and_observable(tmp_path: Path) -> None:
     )
     async with supervisor.events.subscribe() as queue:
         await supervisor.start()
-        await eventually(lambda: worker.invocations == 2)
+        await asyncio.wait_for(worker.retry_started.wait(), timeout=5.0)
+        assert worker.invocations == 2
         await supervisor.stop()
         kinds = []
         while not queue.empty():
