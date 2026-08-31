@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "runtime-sentinel"
+version = "0.1.0"
+description = "Async runtime supervision, resilience, scheduling and health monitoring toolkit for Python."
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MIT"
+authors = [{ name = "Naoki" }]
+keywords = ["asyncio", "supervision", "resilience", "scheduler", "observability"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = [
+  "hypothesis>=6.138",
+  "mypy>=1.17",
+  "pytest>=8.4",
+  "pytest-asyncio>=1.1",
+  "pytest-cov>=6.2",
+  "ruff>=0.12",
+]
+
+[project.scripts]
+runtime-sentinel = "runtime_sentinel.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+runtime_sentinel = ["py.typed"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --cov=runtime_sentinel --cov-report=term-missing --cov-fail-under=90"
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+branch = true
+omit = ["src/runtime_sentinel/cli.py"]
+
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+  '\.\.\.',
+]
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+packages = ["runtime_sentinel"]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ASYNC", "RUF"]
